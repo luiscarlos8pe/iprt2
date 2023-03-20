@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+	<link type="text/css" rel="stylesheet"
+		href="/materialize/css/materialize.css" media="screen,projection" />
+	<link type="text/css" rel="stylesheet"
+		href="/materialize/css/materialize.min.css" media="screen,projection" />
+
+
+<style type="text/css">
+table.striped>tbody>tr:nth-child(odd) {
+	background-color: rgba(158, 154, 154, 0.5);
+}
+
+form input[type=submit] {
+ color: white;
+}
+
+
+
+</style>
+
+<title>Insert title here</title>
+</head>
+<body>
+
+<header>
+
+ <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Detalhe da Pessoa</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a class="waves-effect waves-light btn" href="/cadastropessoa">Cad. Membros</a></li>
+        
+      </ul>
+    </div>
+  </nav>
+</header>
+
+ <div th:each="p : ${pessoaobj}">
+     <div class="row">
+       <div class="container">
+       <p><b>ID:</b> <span th:text="${p.id}"></span></p>
+       <p><b>Nome:</b> <span th:text="${p.nome}"></span></p>
+       <p><b>Apelido:</b> <span th:text="${p.apelido}"></span></p>
+       <p><b>Email:</b> <span th:text="${p.email}"></span></p>
+       <p><b>Data Nascimento:</b> <span th:text="${p.dataNascimento}"></span></p>
+       <p><b>Data Conversão:</b> <span th:text="${p.dataCoversao}"></span></p>
+       <p><b>Dizimista:</b> <span th:text="${p.dizimista}"></span></p>
+       <p><b>telefone:</b> <span th:text="${p.telefone}"></span></p>
+     </div>
+     </div>
+ </div>
+
+
+
+
+
+
+
+
+	<script type="text/javascript" src="/materialize/js/materialize.js"></script>
+	<script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+</body>
+</html>

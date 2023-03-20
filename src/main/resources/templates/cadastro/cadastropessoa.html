@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet">
+	<link type="text/css" rel="stylesheet"
+		href="/materialize/css/materialize.css" media="screen,projection" />
+	<link type="text/css" rel="stylesheet"
+		href="/materialize/css/materialize.min.css" media="screen,projection" />
+
+<style type="text/css">
+table.striped>tbody>tr:nth-child(odd) {
+	background-color: rgba(158, 154, 154, 0.5);
+}
+
+form input[type=submit] {
+ color: white;
+}
+
+form {
+width: 50%;
+margin: 40px 0;
+border: 2px solid black;
+padding: 20px;
+}
+</style>
+
+	<title>Insert title here</title>
+	
+</head>
+
+<body>
+
+<header>
+
+ <nav>
+    <div class="nav-wrapper">
+      <a href="#" class="brand-logo">Cadastro de menbros</a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li><a href="sass.html">Sass</a></li>
+        <li><a href="badges.html">Components</a></li>
+        <li><a href="collapsible.html">JavaScript</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+	
+
+
+	<div class="row" >
+		<form class="container" action="salvarpessoa" id="formpessoa" method="post" th:object="${pessoaobj}" onsubmit="return validarCampos()? true : false">
+			<div class="row" >
+				<div class="input-field col s1">
+					<input  value="I am not editable" id="id" type="text" readonly="readonly"
+						th:field="*{id}"> <label for="id">ID</label>
+				</div>
+				<div class="input-field col s8">
+					<input placeholder="Nome" id="nome" name="nome" type="text"
+						class="validate" th:field="*{nome}"> <label for="nome"
+						class="active">Nome</label>
+				</div>
+				<div class="input-field col s3">
+					<input placeholder="Placeholder" id="apelido" name="apelido" type="text" class="validate" th:field="*{apelido}"> 
+					<label for="apelido" class="active">Apelido</label>
+				</div>
+			</div>	
+			<div class="row">
+				<div class="input-field col s2">
+         			 <i class="material-icons prefix">phone</i>
+         			 <input id="telefone"  type="text" placeholder="Ex.: 0000-0000" class="validate" th:field="*{telefone}">
+         			 <label for="icon_telephone">Telephone</label>
+        		</div>
+        		<div class="input-field col s4">
+						<input placeholder="Placeholder" id="email" name="email" type="email" class="validate" th:field="*{email}"> 
+					<label for="email" class="active">Email</label>
+				</div>
+				
+			 <div class="input-field col s3">
+			  <label for="dataNascimento" class="active">Data Nascimento:</label>
+			  <input type="date" id="dataNascimento" name="dataNascimento" placeholder="Data Nasc." th:field="*{dataNascimento}">
+			 </div>
+			 
+			 <div class="input-field col s3">
+			  <label for="dataCoversao" class="active">Data Conversão:</label>
+			  <input type="date" id="dataCoversao" name="dataCoversao" placeholder="Data conv." th:field="*{dataCoversao}">
+			 </div>
+				
+			</div>
+			<div class="row" sec:authorize="hasAnyRole('ROLE_TECNICO', 'ROLE_VISITANTE')">
+			<!-- <div class="row" sec:authorize="hasRole('ROLE_TECNICO')">  quando for apenas um -->
+				<div class="input-field col s2">
+						<input id="dizimista" type="text" class="validate">
+						<label for="dizimista" class="active">Dizimista</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-field col s6">
+					<input class="waves-effect waves-light btn-small" type="submit" value="Salvar">
+				</div>
+			</div>
+		</form>		
+	</div>
+
+	<br />
+
+	
+	
+		<div class="container">
+		<form action="pesquisarpessoa" method="post" class="col s12">
+			<div class="row">
+				<div class="input-field col s12">
+					<label for="nomepesquisa" class="active">Pesquia por nome:</label>
+					<input name="nomepesquisa" id="nomepesquisa" class="validate">
+						<input class="waves-effect waves-light btn" type="submit" value="Buscar"> 
+						<a class="waves-effect waves-light btn" href="/listapessoas">Lista Pessoas</a>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<table class="striped">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Nome</th>
+				<th>Apelido</th>
+				<th>Email</th>
+				<th>Data Nascimento</th>
+				<th>Data Conversão</th>
+				<th>Dizimista</th>
+				<th>telefone</th>
+			
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="pessoa : ${pessoas}">
+				<td th:text="${pessoa.id}"></td>
+				<td><a th:href="@{/detalhepessoa/{idpessoa}(idpessoa=${pessoa.id})}"><span th:text = "${pessoa.nome}"></span></a></td>
+				<td th:text="${pessoa.apelido}"></td>
+				<td th:text="${pessoa.email}"></td>
+				<td th:text="${pessoa.dataNascimento}"></td>
+				<td th:text="${pessoa.dataCoversao}"></td>
+				<td th:text="${pessoa.dizimista}"></td>
+				<td th:text="${pessoa.telefone}"></td>
+				
+
+				<td><a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a></td>
+				<td><a th:href="@{/removerpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+
+
+
+
+	<script type="text/javascript" src="/materialize/js/materialize.js"></script>
+	<script type="text/javascript" src="/materialize/js/materialize.min.js"></script>
+	
+	<script type="text/javascript">
+ function validarCampos(){
+	  nome = document.getElementById('nome').value;
+	  apelido = document.getElementById('apelido').value;
+	  telefone = document.getElementById('telefone').value;
+	  email = document.getElementById('email').value;
+	  dataNascimento = document.getElementById('dataNascimento').value;
+	  dataCoversao = document.getElementById('dataCoversao').value;
+	
+	  
+	  if (nome === ''){
+		  alert('Nome deve ser informado');
+		  return false;
+	  }
+	  else if (apelido === '') {
+		  alert('Apelido deve ser informado');
+		  return false;
+	  }
+	  if (telefone === ''){
+		  alert('Telefone deve ser informado');
+		  return false;
+	  }
+	  else if (email === '') {
+		  alert('Email deve ser informado');
+		  return false;
+	  }
+	  else if (dataNascimento === '') {
+		  alert('Data de nascimento deve ser informado');
+		  return false;
+	  }
+	  else if (dataCoversao === '') {
+		  alert('Data de conversão deve ser informado');
+		  return false;
+	  }
+	  
+	  
+	  return true;
+  }
+	
+  </script>
+</body>
+</html>
