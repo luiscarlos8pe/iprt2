@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
 @Configuration
 @EnableWebSecurity
@@ -23,14 +24,19 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf()
 		.disable() // Desativa as configurações padrão de memória.
-		.authorizeRequests() // Pertimir restringir acessos
+		.authorizeRequests() // Pertimi restringir acessos
 		.antMatchers(HttpMethod.GET, "/").permitAll() // Qualquer usuário acessa a pagina inicial
 		.antMatchers(HttpMethod.GET, "/cadastropessoa").hasAnyRole("ADMIN")
 		.anyRequest().authenticated()
-		.and().formLogin().permitAll() // permite qualquer usuário
-		.and().logout() // Mapeia URL de Logout e invalida usuário autenticado
+		.and().formLogin().permitAll()// permite qualquer usuário
+        .loginPage("/login")
+        .defaultSuccessUrl("/cadastropessoa")
+        .failureUrl("/login?error=true")
+        .and()
+        .logout().logoutSuccessUrl("/login")
+		// Mapeia URL de Logout e invalida usuário autenticado
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"));
-	
+		
 	}
 	
 	
@@ -52,5 +58,15 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/materialize/**");
 	}
+	
+	 public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	 registry.addResourceHandler("/webjars/**", "/resources/**", "/static/**", "/img/**", "/css/**", "/js/**",
+					"classpath:/static/", "classpath:/resources/")
+			.addResourceLocations("/webjars/", "/resources/",
+							"classpath:/static/**", "classpath:/static/img/**", "classpath:/static/",
+							"classpath:/resources/", "classpath:/static/css/", "classpath:/static/js/", "/resources/**",
+							"/WEB-INF/classes/static/**");
+			
+	  }
 
 }
