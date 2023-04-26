@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,6 +20,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
 
 
 
@@ -74,9 +76,20 @@ public class Pessoa implements Serializable {
 	    @ManyToOne
 		private Profissao profissao;
 		
+		@Enumerated(EnumType.STRING)
+		private Cargo cargo;
+		
+		
 	    
-	    
-	    public Profissao getProfissao() {
+	    public Cargo getCargo() {
+			return cargo;
+		}
+
+		public void setCargo(Cargo cargo) {
+			this.cargo = cargo;
+		}
+
+		public Profissao getProfissao() {
 			return profissao;
 		}
 

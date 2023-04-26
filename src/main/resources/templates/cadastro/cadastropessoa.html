@@ -74,7 +74,7 @@ form {
 							type="text" class="validate" th:field="*{apelido}"> <label
 							for="apelido" class="active">Apelido</label>
 					</div>
-					<div class="input-field col s4">
+					<div class="input-field col s3">
 						<label for="sexopessoa" class="active">Sexo</label> <select
 							class="browser-default" th:field="*{sexopessoa}">
 							<option value="sexopessoa" disabled selected>Escolha a
@@ -83,23 +83,31 @@ form {
 							<option value="FEMININO">Feminino</option>
 						</select>
 					</div>
-					<div class="input-field col s4">
+					<div class="input-field col s3">
 						<label for="dizimista" class="active">Dizimista</label> <select
 							class="browser-default" th:field="*{dizimista}">
 							<option value="dizimista" disabled selected>Escolha a
 								opção</option>
+							<option value="SIM">Sim</option>
 							<option value="NAO">Não</option>
 							<option value="PARCIAL">Parcial</option>
 						</select>
 					</div>
 
-					<div class="input-field col s4">
-						<label for="profissao" class="active">Profissão</label> <select
-							class="browser-default" th:field="*{profissao}">
-							<option th:each="p : ${profissoes}" th:value="${p.id}"
-								th:text="${p.nome}">
+					<div class="input-field col s3">
+						<label for="profissao" class="active">Profissão</label> 
+						<select class="browser-default" th:field="*{profissao}">
+								<option th:each="p : ${profissoes}" th:value="${p.id}" th:text="${p.nome}">
 						</select>
 					</div>
+					
+					 <div class="input-field col s3">
+				 <label for="cargo" class="active">Cargo</label>
+				 <select class="browser-default" th:field="*{cargo}" id="cargo">
+						<option th:each="c : ${T(com.projeto.iprt2.iprt2.model.Cargo).values()}" 
+						th:value="${c.valor}" th:text="${c.nome}">
+				 </select>
+			 </div>
 				</div>
 				<div class="row">
 					<div class="input-field col s2">
