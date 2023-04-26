@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +22,27 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.projeto.iprt2.iprt2.model.Pessoa;
 import com.projeto.iprt2.iprt2.repository.PessoaRepository;
+import com.projeto.iprt2.iprt2.repository.ProfissaoRepository;
 
 @Controller
 public class PessoaController {
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
+	
+	
+	@Autowired
+	private ReportUtil reportUtil;
+	
+	
+	@Autowired
+	private ProfissaoRepository profissaoRepository;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/cadastropessoa")
 	public ModelAndView inicio() {
 		ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
 		modelAndView.addObject("pessoaobj", new Pessoa());
+		modelAndView.addObject("profissoes", profissaoRepository.findAll());
 		return modelAndView;
 		
 	}
@@ -50,6 +62,7 @@ public class PessoaController {
 			}
 			
 			modelAndView.addObject("msg", msg);
+			modelAndView.addObject("profissoes", profissaoRepository.findAll());
 			return modelAndView;
 		}
 		
@@ -82,6 +95,7 @@ public class PessoaController {
 
 			ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
 			modelAndView.addObject("pessoaobj", pessoa.get());
+			modelAndView.addObject("profissoes", profissaoRepository.findAll());
 			return modelAndView;
 			
 		}
@@ -94,6 +108,7 @@ public class PessoaController {
 			ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
 			modelAndView.addObject("pessoas", pessoaRepository.findAll());
 			modelAndView.addObject("pessoaobj", new Pessoa());
+			modelAndView.addObject("profissoes", profissaoRepository.findAll());
 			return modelAndView;
 			
 		}
@@ -114,7 +129,60 @@ public class PessoaController {
 			modelAndView.addObject("pessoas", pessoas);
 			modelAndView.addObject("pessoaobj", new Pessoa());
 			return modelAndView;
+			
 		}
+		
+		
+		@GetMapping("**/pesquisarpessoa")
+		public void imprimePdf(@RequestParam("nomepesquisa") String nomepesquisa, 
+				@RequestParam("dizimista") String dizimista,
+				HttpServletRequest request,
+				HttpServletResponse response) throws Exception {
+			
+			List<Pessoa> pessoas = new ArrayList<Pessoa>();
+			
+			if (dizimista != null && !dizimista.isEmpty()
+					&& nomepesquisa != null && !nomepesquisa.isEmpty()) {/*Busca por nome e sexo*/
+				
+				pessoas = pessoaRepository.findPessoaByNameDizimista(nomepesquisa, dizimista);
+				
+			}else if (nomepesquisa != null && !nomepesquisa.isEmpty()) {/*Busca somente por nome*/
+				
+				pessoas = pessoaRepository.findPessoaByName(nomepesquisa);
+				
+			}
+		else if (dizimista != null && !dizimista.isEmpty()) {/*Busca somente por sexo*/
+			
+			pessoas = pessoaRepository.findPessoaDizimista(dizimista);
+			
+		}
+			else {/*Busca todos*/
+				
+				Iterable<Pessoa> iterator = pessoaRepository.findAll();
+				for (Pessoa pessoa : iterator) {
+					pessoas.add(pessoa);
+				}
+			}
+			
+			/*Chame o serviço que faz a geração do relatorio*/
+			byte[] pdf = reportUtil.gerarRelatorio(pessoas, "pessoa", request.getServletContext());
+			
+		    /*Tamanho da resposta*/
+			response.setContentLength(pdf.length);
+			
+			/*Definir na resposta o tipo de arquivo*/
+			response.setContentType("application/octet-stream");
+			
+			/*Definir o cabeçalho da resposta*/
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"", "relatorio.pdf");
+			response.setHeader(headerKey, headerValue);
+			
+			/*Finaliza a resposta pro navegador*/
+			response.getOutputStream().write(pdf);
+			
+		}
+		
 		
 		@GetMapping("/detalhepessoa/{idpessoa}")
 		public ModelAndView detalhepessoa(@PathVariable("idpessoa") Long idpessoa) {

@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
@@ -18,6 +19,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+
 
 
 @Entity
@@ -68,10 +71,20 @@ public class Pessoa implements Serializable {
 	    
 	    private String sexopessoa;
 	
+	    @ManyToOne
+		private Profissao profissao;
+		
 	    
 	    
-	    
-	    public String getSexopessoa() {
+	    public Profissao getProfissao() {
+			return profissao;
+		}
+
+		public void setProfissao(Profissao profissao) {
+			this.profissao = profissao;
+		}
+
+		public String getSexopessoa() {
 			return sexopessoa;
 		}
 

@@ -1,355 +1,396 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
- <!-- Adicionando JQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
-            crossorigin="anonymous"></script>
+<!-- Adicionando JQuery -->
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"
+	integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
+	crossorigin="anonymous"></script>
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
 	rel="stylesheet">
-	
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+	<link rel="stylesheet"
+		href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
 
-<style type="text/css">
+		<style type="text/css">
 table.striped>tbody>tr:nth-child(odd) {
 	background-color: rgba(158, 154, 154, 0.5);
 }
 
 form input[type=submit] {
- color: white;
+	color: white;
 }
 
 form {
-width: 50%;
-margin: 40px 0;
-border: 2px solid black;
-padding: 20px;
+	width: 50%;
+	margin: 40px 0;
+	border: 2px solid black;
+	padding: 20px;
 }
 </style>
 
-	<title>Insert title here</title>
-	
+		<title>Insert title here</title>
 </head>
 
 <body>
 
-<header>
-
- <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Cadastro de menbros</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="sass.html">Sass</a></li>
-        <li><a href="badges.html">Components</a></li>
-        <li><a href="collapsible.html">JavaScript</a></li>
-      </ul>
-    </div>
-  </nav>
-</header>
-	
+	<header> <nav>
+	<div class="nav-wrapper">
+		<a href="#" class="brand-logo">Cadastro de menbros</a>
+		<ul id="nav-mobile" class="right hide-on-med-and-down">
+			<li><a href="sass.html">Sass</a></li>
+			<li><a href="badges.html">Components</a></li>
+			<li><a href="collapsible.html">JavaScript</a></li>
+		</ul>
+	</div>
+	</nav> </header>
 
 
-	<div class="row" >
-		<form class="container" action="salvarpessoa" id="formpessoa" method="post" th:object="${pessoaobj}" onsubmit="return validarCampos()? true : false">
+
+	<div class="row">
+		<form class="container" action="salvarpessoa" id="formpessoa"
+			method="post" th:object="${pessoaobj}"
+			onsubmit="return validarCampos()? true : false">
 			<fieldset>
-			<legend>Formulario de Cadastro</legend>
-			<div class="row" >
-				<div class="input-field col s1">
-					<input  value="I am not editable" id="id" type="text" readonly="readonly"
-						th:field="*{id}"> <label for="id">ID</label>
+				<legend>Formulario de Cadastro</legend>
+				<div class="row">
+					<div class="input-field col s1">
+						<input value="I am not editable" id="id" type="text"
+							readonly="readonly" th:field="*{id}"> <label for="id">ID</label>
+					</div>
+					<div class="input-field col s8">
+						<input placeholder="Informe o nome" id="nome" name="nome"
+							type="text" class="validate" th:field="*{nome}"> <label
+							for="nome" class="active">Nome</label>
+					</div>
+					<div class="input-field col s3">
+						<input placeholder="Informe o apelido" id="apelido" name="apelido"
+							type="text" class="validate" th:field="*{apelido}"> <label
+							for="apelido" class="active">Apelido</label>
+					</div>
+					<div class="input-field col s4">
+						<label for="sexopessoa" class="active">Sexo</label> <select
+							class="browser-default" th:field="*{sexopessoa}">
+							<option value="sexopessoa" disabled selected>Escolha a
+								opção</option>
+							<option value="MASCULINO">Masculino</option>
+							<option value="FEMININO">Feminino</option>
+						</select>
+					</div>
+					<div class="input-field col s4">
+						<label for="dizimista" class="active">Dizimista</label> <select
+							class="browser-default" th:field="*{dizimista}">
+							<option value="dizimista" disabled selected>Escolha a
+								opção</option>
+							<option value="NAO">Não</option>
+							<option value="PARCIAL">Parcial</option>
+						</select>
+					</div>
+
+					<div class="input-field col s4">
+						<label for="profissao" class="active">Profissão</label> <select
+							class="browser-default" th:field="*{profissao}">
+							<option th:each="p : ${profissoes}" th:value="${p.id}"
+								th:text="${p.nome}">
+						</select>
+					</div>
 				</div>
-				<div class="input-field col s8">
-					<input placeholder="Informe o nome" id="nome" name="nome" type="text"
-						class="validate" th:field="*{nome}"> <label for="nome"
-						class="active">Nome</label>
-				</div>
-				<div class="input-field col s3">
-					<input placeholder="Informe o apelido" id="apelido" name="apelido" type="text" class="validate" th:field="*{apelido}"> 
-					<label for="apelido" class="active">Apelido</label>
-				</div>
-				<div class="input-field col s5">
-					<label for="sexopessoa" class="active">Sexo</label>
-  						<select class="browser-default" th:field="*{sexopessoa}">
-    					<option value="sexopessoa" disabled selected>Escolha a opção</option>
-   						<option value="MASCULINO">Masculino</option>
-    					<option value="FEMININO">Feminino</option>    				
-  					</select>
-  				</div>
-  				<div class="input-field col s5">
-					<label for="dizimista" class="active">Dizimista</label>
-  						<select class="browser-default" th:field="*{dizimista}">
-    					<option value="dizimista" disabled selected>Escolha a opção</option>
-   						<option value="SIM">Sim</option>
-    					<option value="NAO">Não</option>
-    					<option value="PARCIAL">Parcial</option>     				
-  					</select>
-  				</div>
-			</div>	
-			<div class="row">
-				<div class="input-field col s2">
-         			 <i class="material-icons prefix">phone</i>
-         			 <input id="telefone"  type="text" placeholder="Ex.: 0000-0000" class="validate" th:field="*{telefone}">
-         			 <label for="icon_telephone">Telephone</label>
-        		</div>
-        		<div class="input-field col s4">
-						<input placeholder="Informe o email" id="email" name="email" type="email" class="validate" th:field="*{email}"> 
-					<label for="email" class="active">Email</label>
-				</div>
-				
-			 	<div class="input-field col s3">
-			 		 <label for="dataNascimento" class="active">Data Nascimento:</label>
-			  		 <input type="date" id="dataNascimento" name="dataNascimento" placeholder="Data Nasc." th:field="*{dataNascimento}">
-			 	</div>
-			 
-			 	<div class="input-field col s3">
-			  		<label for="dataCoversao" class="active">Data Conversão:</label>
-			  		<input type="date" id="dataCoversao" name="dataCoversao" placeholder="Data conv." th:field="*{dataCoversao}">
-			 	</div>
-			 
-			 	
-				<div class="input-field col s4">
-					  <input placeholder="Informe o cep" id="cep" type="text" class="validate" th:field="*{cep}">
-					  <label for="cep" class="active">cep</label>
-				</div>
-				<div class="input-field col s4">
-					<input placeholder="Informe a rua" id="rua" name="rua" type="text"
-						class="validate" th:field="*{rua}"> <label for="rua"
-						class="active">Rua:</label>
-				</div>
-				<div class="input-field col s2">
-					<input placeholder="Informe o número" id="numero" name="numero" type="text" class="validate" th:field="*{numero}"> 
-					<label for="numero" class="active">Número</label>
-				</div>
-				 <div class="input-field col s4">
-						<input placeholder="Informe o bairro" id="bairro" name="bairro" type="text"
-						class="validate" th:field="*{bairro}"> <label for="bairro"
-						class="active">Bairro:</label>
-				</div>
-				<div class="input-field col s4">
-						<input placeholder="Informe a cidade" id="cidade" name="cidade" type="text"
-						class="validate" th:field="*{cidade}"> <label for="cidade"
-						class="active">Cidade:</label>
-				</div>
-				<div class="input-field col s2">
+				<div class="row">
+					<div class="input-field col s2">
+						<i class="material-icons prefix">phone</i> <input id="telefone"
+							type="text" placeholder="Ex.: 0000-0000" class="validate"
+							th:field="*{telefone}"> <label for="icon_telephone">Telephone</label>
+					</div>
+					<div class="input-field col s4">
+						<input placeholder="Informe o email" id="email" name="email"
+							type="email" class="validate" th:field="*{email}"> <label
+							for="email" class="active">Email</label>
+					</div>
+
+					<div class="input-field col s3">
+						<label for="dataNascimento" class="active">Data
+							Nascimento:</label> <input type="date" id="dataNascimento"
+							name="dataNascimento" placeholder="Data Nasc."
+							th:field="*{dataNascimento}">
+					</div>
+
+					<div class="input-field col s3">
+						<label for="dataCoversao" class="active">Data Conversão:</label> <input
+							type="date" id="dataCoversao" name="dataCoversao"
+							placeholder="Data conv." th:field="*{dataCoversao}">
+					</div>
+
+
+					<div class="input-field col s4">
+						<input placeholder="Informe o cep" id="cep" type="text"
+							class="validate" th:field="*{cep}"> <label for="cep"
+							class="active">cep</label>
+					</div>
+					<div class="input-field col s4">
+						<input placeholder="Informe a rua" id="rua" name="rua" type="text"
+							class="validate" th:field="*{rua}"> <label for="rua"
+							class="active">Rua:</label>
+					</div>
+					<div class="input-field col s2">
+						<input placeholder="Informe o número" id="numero" name="numero"
+							type="text" class="validate" th:field="*{numero}"> <label
+							for="numero" class="active">Número</label>
+					</div>
+					<div class="input-field col s4">
+						<input placeholder="Informe o bairro" id="bairro" name="bairro"
+							type="text" class="validate" th:field="*{bairro}"> <label
+							for="bairro" class="active">Bairro:</label>
+					</div>
+					<div class="input-field col s4">
+						<input placeholder="Informe a cidade" id="cidade" name="cidade"
+							type="text" class="validate" th:field="*{cidade}"> <label
+							for="cidade" class="active">Cidade:</label>
+					</div>
+					<div class="input-field col s2">
 						<input placeholder="Informe a UF" id="uf" name="uf" type="text"
-						class="validate" th:field="*{uf}"> <label for="uf"
-						class="active">UF:</label>
-				</div>	
-				<div class="input-field col s4">
-						<input placeholder="Informe o IBGE" id="ibge" name="ibge" type="text"
-						class="validate" th:field="*{ibge}"> <label for="ibge"
-						class="active">IBGE:</label>
-				</div>						
-			
-				
-			<!-- <div class="row" sec:authorize="hasRole('ROLE_TECNICO')">  quando for apenas um -->
-			<!--<div class="row" sec:authorize="hasAnyRole('ROLE_TECNICO', 'ROLE_VISITANTE')">		
+							class="validate" th:field="*{uf}"> <label for="uf"
+							class="active">UF:</label>
+					</div>
+					<div class="input-field col s4">
+						<input placeholder="Informe o IBGE" id="ibge" name="ibge"
+							type="text" class="validate" th:field="*{ibge}"> <label
+							for="ibge" class="active">IBGE:</label>
+					</div>
+
+
+					<!-- <div class="row" sec:authorize="hasRole('ROLE_TECNICO')">  quando for apenas um -->
+					<!--<div class="row" sec:authorize="hasAnyRole('ROLE_TECNICO', 'ROLE_VISITANTE')">		
 					<div class="input-field col s2">
 						<input id="dizimista" type="text" class="validate">
 						<label for="dizimista" class="active">Dizimista</label>
 					</div>
 				</div>-->
-				
-			</div>
-			<div class="row">
-				<div class="input-field col s6">
-					<input class="waves-effect waves-light btn-small" type="submit" value="Salvar">
-				</div>
-			</div>
-			</fieldset>	
-		</form>		
-	</div>
-	
-	<br />
 
-	
-	
-		<div class="row">
-		<form action="pesquisarpessoa" method="post" class="container">
-		<fieldset>
-		<legend>Pesquisas</legend>
-			<div class="row">
-				<div class="input-field col s7">
-					<label for="nomepesquisa" class="active">Pesquia por nome:</label>
-					<input name="nomepesquisa" id="nomepesquisa" class="validate">
-						<input class="waves-effect waves-light btn" type="submit" value="Buscar"> 
-						<a class="waves-effect waves-light btn" href="/listapessoas">Lista Pessoas</a>
-						
-						
 				</div>
-				
-				   <div class="input-field col s5">
-						<label for="dizimista" class="active">Dizimista</label>
-  						<select class="browser-default" name="dizimista" id="dizimista">
-    						<option value="">--[Todos]--</option>
-   							<option value="SIM">Sim</option>
-    						<option value="NAO">Não</option>
-    						<option value="PARCIAL">Parcial</option>  				
-  						</select>				
-					</div>	
-			</div>
-			</fieldset>	
+				<div class="row">
+					<div class="input-field col s6">
+						<input class="waves-effect waves-light btn-small" type="submit"
+							value="Salvar">
+					</div>
+				</div>
+			</fieldset>
 		</form>
 	</div>
-	
-<fieldset>
-	<legend>Lista de membros</legend>
-	<table class="striped">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Nome</th>
-				<th>Apelido</th>
-				<th>Email</th>
-				<th>Data Nascimento</th>
-				<th>Data Conversão</th>
-				<th>Dizimista</th>
-				<th>telefone</th>
-			
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="pessoa : ${pessoas}">
-				<td th:text="${pessoa.id}"></td>
-				<td><a th:href="@{/detalhepessoa/{idpessoa}(idpessoa=${pessoa.id})}"><span th:text = "${pessoa.nome}"></span></a></td>
-				<td th:text="${pessoa.apelido}"></td>
-				<td th:text="${pessoa.email}"></td>
-				<td th:text="${pessoa.dataNascimento}"></td>
-				<td th:text="${pessoa.dataCoversao}"></td>
-				<td th:text="${pessoa.dizimista}"></td>
-				<td th:text="${pessoa.telefone}"></td>
-					
-				
 
-				<td><a th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a></td>
-				<td><a th:href="@{/removerpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</fieldset>	
+	<br />
 
 
 
+	<div class="row">
+		<form action="pesquisarpessoa" method="post" class="container"
+			id="pesquisarpessoa">
+			<fieldset>
+				<legend>Pesquisas</legend>
+				<div class="row">
+					<div class="input-field col s5">
+						<label for="nomepesquisa" class="active">Pesquia por nome:</label>
+						<input name="nomepesquisa" id="nomepesquisa" class="validate">
+							<input class="waves-effect waves-light btn" type="submit"
+							value="Buscar"> <a class="waves-effect waves-light btn"
+								href="/listapessoas">Lista Pessoas</a> <input
+								class="waves-effect waves-light btn" type="submit" value="PDF"
+								onclick="document.getElementById('pesquisarpessoa').method = 'get'">
+					</div>
 
-	
+					<div class="input-field col s4">
+						<label for="dizimista" class="active">Dizimista</label> <select
+							class="browser-default" name="dizimista" id="dizimista">
+							<option value="">--[Todos]--</option>
+							<option value="SIM">Sim</option>
+							<option value="NAO">Não</option>
+							<option value="PARCIAL">Parcial</option>
+						</select>
+					</div>
+
+				</div>
+			</fieldset>
+		</form>
+	</div>
+
+	<fieldset>
+		<legend>Lista de membros</legend>
+		<table class="striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Nome</th>
+					<th>Apelido</th>
+					<th>Email</th>
+					<th>Data Nascimento</th>
+					<th>Data Conversão</th>
+					<th>Dizimista</th>
+					<th>telefone</th>
+
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="pessoa : ${pessoas}">
+					<td th:text="${pessoa.id}"></td>
+					<td><a
+						th:href="@{/detalhepessoa/{idpessoa}(idpessoa=${pessoa.id})}"><span
+							th:text="${pessoa.nome}"></span></a></td>
+					<td th:text="${pessoa.apelido}"></td>
+					<td th:text="${pessoa.email}"></td>
+					<td th:text="${pessoa.dataNascimento}"></td>
+					<td th:text="${pessoa.dataCoversao}"></td>
+					<td th:text="${pessoa.dizimista}"></td>
+					<td th:text="${pessoa.telefone}"></td>
+
+
+
+					<td><a
+						th:href="@{/editarpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Editar</a></td>
+					<td><a
+						th:href="@{/removerpessoa/{idpessoa}(idpessoa=${pessoa.id})}">Excluir</a>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</fieldset>
+
+
+
+
+
 	<script type="text/javascript">
- function validarCampos(){
-	  nome = document.getElementById('nome').value;
-	  apelido = document.getElementById('apelido').value;
-	  telefone = document.getElementById('telefone').value;
-	  email = document.getElementById('email').value;
-	  dataNascimento = document.getElementById('dataNascimento').value;
-	  dataCoversao = document.getElementById('dataCoversao').value;
-	
-	  
-	  if (nome === ''){
-		  alert('Nome deve ser informado');
-		  return false;
-	  }
-	  else if (apelido === '') {
-		  alert('Apelido deve ser informado');
-		  return false;
-	  }
-	  if (telefone === ''){
-		  alert('Telefone deve ser informado');
-		  return false;
-	  }
-	  else if (email === '') {
-		  alert('Email deve ser informado');
-		  return false;
-	  }
-	  else if (dataNascimento === '') {
-		  alert('Data de nascimento deve ser informado');
-		  return false;
-	  }
-	  else if (dataCoversao === '') {
-		  alert('Data de conversão deve ser informado');
-		  return false;
-	  }
-	  
-	  
-	  return true;
-  }
-	
-  </script>
-  
-   <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
-    
-    <!-- Adicionando Javascript -->
-    <script>
+		function validarCampos() {
+			nome = document.getElementById('nome').value;
+			apelido = document.getElementById('apelido').value;
+			telefone = document.getElementById('telefone').value;
+			email = document.getElementById('email').value;
+			dataNascimento = document.getElementById('dataNascimento').value;
+			dataCoversao = document.getElementById('dataCoversao').value;
 
-        $(document).ready(function() {
+			if (nome === '') {
+				alert('Nome deve ser informado');
+				return false;
+			} else if (apelido === '') {
+				alert('Apelido deve ser informado');
+				return false;
+			}
+			if (telefone === '') {
+				alert('Telefone deve ser informado');
+				return false;
+			} else if (email === '') {
+				alert('Email deve ser informado');
+				return false;
+			} else if (dataNascimento === '') {
+				alert('Data de nascimento deve ser informado');
+				return false;
+			} else if (dataCoversao === '') {
+				alert('Data de conversão deve ser informado');
+				return false;
+			}
 
-            function limpa_formulário_cep() {
-                // Limpa valores do formulário de cep.
-                $("#rua").val("");
-                $("#bairro").val("");
-                $("#cidade").val("");
-                $("#uf").val("");
-                $("#ibge").val("");
-            }
-            
-            //Quando o campo cep perde o foco.
-            $("#cep").blur(function() {
+			return true;
+		}
+	</script>
 
-                //Nova variável "cep" somente com dígitos.
-                var cep = $(this).val().replace(/\D/g, '');
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
 
-                //Verifica se campo cep possui valor informado.
-                if (cep != "") {
+	<!-- Adicionando Javascript -->
+	<script>
+		$(document)
+				.ready(
+						function() {
 
-                    //Expressão regular para validar o CEP.
-                    var validacep = /^[0-9]{8}$/;
+							function limpa_formulário_cep() {
+								// Limpa valores do formulário de cep.
+								$("#rua").val("");
+								$("#bairro").val("");
+								$("#cidade").val("");
+								$("#uf").val("");
+								$("#ibge").val("");
+							}
 
-                    //Valida o formato do CEP.
-                    if(validacep.test(cep)) {
+							//Quando o campo cep perde o foco.
+							$("#cep")
+									.blur(
+											function() {
 
-                        //Preenche os campos com "..." enquanto consulta webservice.
-                        $("#rua").val("...");
-                        $("#bairro").val("...");
-                        $("#cidade").val("...");
-                        $("#uf").val("...");
-                        $("#ibge").val("...");
+												//Nova variável "cep" somente com dígitos.
+												var cep = $(this).val()
+														.replace(/\D/g, '');
 
-                        //Consulta o webservice viacep.com.br/
-                        $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+												//Verifica se campo cep possui valor informado.
+												if (cep != "") {
 
-                            if (!("erro" in dados)) {
-                                //Atualiza os campos com os valores da consulta.
-                                $("#rua").val(dados.logradouro);
-                                $("#bairro").val(dados.bairro);
-                                $("#cidade").val(dados.localidade);
-                                $("#uf").val(dados.uf);
-                                $("#ibge").val(dados.ibge);
-                            } //end if.
-                            else {
-                                //CEP pesquisado não foi encontrado.
-                                limpa_formulário_cep();
-                                alert("CEP não encontrado.");
-                            }
-                        });
-                    } //end if.
-                    else {
-                        //cep é inválido.
-                        limpa_formulário_cep();
-                        alert("Formato de CEP inválido.");
-                    }
-                } //end if.
-                else {
-                    //cep sem valor, limpa formulário.
-                    limpa_formulário_cep();
-                }
-            });
-        });
+													//Expressão regular para validar o CEP.
+													var validacep = /^[0-9]{8}$/;
 
-    </script>
-    </head>
+													//Valida o formato do CEP.
+													if (validacep.test(cep)) {
+
+														//Preenche os campos com "..." enquanto consulta webservice.
+														$("#rua").val("...");
+														$("#bairro").val("...");
+														$("#cidade").val("...");
+														$("#uf").val("...");
+														$("#ibge").val("...");
+
+														//Consulta o webservice viacep.com.br/
+														$
+																.getJSON(
+																		"https://viacep.com.br/ws/"
+																				+ cep
+																				+ "/json/?callback=?",
+																		function(
+																				dados) {
+
+																			if (!("erro" in dados)) {
+																				//Atualiza os campos com os valores da consulta.
+																				$(
+																						"#rua")
+																						.val(
+																								dados.logradouro);
+																				$(
+																						"#bairro")
+																						.val(
+																								dados.bairro);
+																				$(
+																						"#cidade")
+																						.val(
+																								dados.localidade);
+																				$(
+																						"#uf")
+																						.val(
+																								dados.uf);
+																				$(
+																						"#ibge")
+																						.val(
+																								dados.ibge);
+																			} //end if.
+																			else {
+																				//CEP pesquisado não foi encontrado.
+																				limpa_formulário_cep();
+																				alert("CEP não encontrado.");
+																			}
+																		});
+													} //end if.
+													else {
+														//cep é inválido.
+														limpa_formulário_cep();
+														alert("Formato de CEP inválido.");
+													}
+												} //end if.
+												else {
+													//cep sem valor, limpa formulário.
+													limpa_formulário_cep();
+												}
+											});
+						});
+	</script>
+	</head>
 </body>
 </html>
