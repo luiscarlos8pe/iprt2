@@ -95,19 +95,21 @@ form {
 					</div>
 
 					<div class="input-field col s3">
-						<label for="profissao" class="active">Profissão</label> 
-						<select class="browser-default" th:field="*{profissao}">
-								<option th:each="p : ${profissoes}" th:value="${p.id}" th:text="${p.nome}">
+						<label for="profissao" class="active">Profissão</label> <select
+							class="browser-default" th:field="*{profissao}">
+							<option th:each="p : ${profissoes}" th:value="${p.id}"
+								th:text="${p.nome}">
 						</select>
 					</div>
-					
-					 <div class="input-field col s3">
-				 <label for="cargo" class="active">Cargo</label>
-				 <select class="browser-default" th:field="*{cargo}" id="cargo">
-						<option th:each="c : ${T(com.projeto.iprt2.iprt2.model.Cargo).values()}" 
-						th:value="${c.valor}" th:text="${c.nome}">
-				 </select>
-			 </div>
+
+					<div class="input-field col s3">
+						<label for="cargo" class="active">Cargo</label> <select
+							class="browser-default" th:field="*{cargo}" id="cargo">
+							<option
+								th:each="c : ${T(com.projeto.iprt2.iprt2.model.Cargo).values()}"
+								th:value="${c.valor}" th:text="${c.nome}">
+						</select>
+					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s2">
@@ -272,6 +274,16 @@ form {
 
 
 	<script type="text/javascript">
+	
+	
+
+    $(document).ready(function() {
+       
+    	$('#dataNascimento').datepicker({
+    		showOthermonths:true,
+    		format: 'yyyy-mm-dd'
+    	});
+    	
 		function validarCampos() {
 			nome = document.getElementById('nome').value;
 			apelido = document.getElementById('apelido').value;
