@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -79,9 +80,13 @@ public class Pessoa implements Serializable {
 		@Enumerated(EnumType.STRING)
 		private Cargo cargo;
 		
-		
+		@Lob
+		private byte[] curriculo;
 	    
-	    public Cargo getCargo() {
+		
+		
+	 
+		public Cargo getCargo() {
 			return cargo;
 		}
 
@@ -261,5 +266,19 @@ public class Pessoa implements Serializable {
 			return false;
 		return true;
 	}
+
+	public void setCurriculo(byte[] bytes) {
+		this.curriculo = bytes;
+		
+	}
+
+	public byte[] getCurriculo() {
+	
+		return curriculo;
+	}
+
+
+		
+	
 
 }
