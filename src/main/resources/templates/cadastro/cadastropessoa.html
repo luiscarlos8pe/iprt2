@@ -139,7 +139,7 @@ form {
 					<div class="row">
 						<div class="input-field col s12">
 							<label for="file" class="active">Currículo:</label> <input
-								type="file" id="file" name="file" class="validate">
+								type="file" id="file" name="file" class="file-field input-field">
 						</div>
 					</div>
 
@@ -248,6 +248,7 @@ form {
 					<th>Data Conversão</th>
 					<th>Dizimista</th>
 					<th>telefone</th>
+					<th>Curriculo</th>
 
 				</tr>
 			</thead>
@@ -263,6 +264,7 @@ form {
 					<td th:text="${pessoa.dataCoversao}"></td>
 					<td th:text="${pessoa.dizimista}"></td>
 					<td th:text="${pessoa.telefone}"></td>
+					<td><a th:href="@{/baixarcurriculo/{idpessoa}(idpessoa=${pessoa.id})}" >Download</a> </td>
 
 
 

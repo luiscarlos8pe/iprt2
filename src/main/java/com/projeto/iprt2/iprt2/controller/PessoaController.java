@@ -142,6 +142,33 @@ public class PessoaController {
 		return modelAndView;
 
 	}
+	
+
+	@GetMapping("**/baixarcurriculo/{idpessoa}")
+	public void baixarcurriculo(@PathVariable("idpessoa") Long idpessoa, 
+			HttpServletResponse response) throws IOException {
+		
+		/*Consultar o obejto pessoa no banco de dados*/
+		Pessoa pessoa = pessoaRepository.findById(idpessoa).get();
+		if (pessoa.getCurriculo() != null) {
+	
+			/*Setar tamanho da resposta*/
+			response.setContentLength(pessoa.getCurriculo().length);
+			
+			/*Tipo do arquivo para download ou pode ser generica application/octet-stream*/
+			response.setContentType(pessoa.getTipoFileCurriculo());
+			
+			/*Define o cabeçalho da resposta*/
+			String headerKey = "Content-Disposition";
+			String headerValue = String.format("attachment; filename=\"%s\"", pessoa.getNomeFileCurriculo());
+			response.setHeader(headerKey, headerValue);
+			
+			/*Finaliza a resposta passando o arquivo*/
+			response.getOutputStream().write(pessoa.getCurriculo());
+			
+		}
+		
+	}
 
 	@GetMapping("**/pesquisarpessoa")
 	public void imprimePdf(@RequestParam("nomepesquisa") String nomepesquisa,
