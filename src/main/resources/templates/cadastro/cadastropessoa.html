@@ -264,8 +264,8 @@ form {
 					<td th:text="${pessoa.dataCoversao}"></td>
 					<td th:text="${pessoa.dizimista}"></td>
 					<td th:text="${pessoa.telefone}"></td>
-					<td><a th:href="@{/baixarcurriculo/{idpessoa}(idpessoa=${pessoa.id})}" >Download</a> </td>
-
+					<td><a th:if="${pessoa.curriculo != null}" th:href="@{/baixarcurriculo/{idpessoa}(idpessoa=${pessoa.id})}" >Download</a> 
+					<a th:if="${pessoa.curriculo == null}" style="color:red;" >Não existe</a> </td>
 
 
 					<td><a
