@@ -54,11 +54,13 @@ public class PessoaController {
 	}
 	
 	@GetMapping("/pessoaspag")
-	public ModelAndView carregaPessoaPorPaginacao(@PageableDefault(size = 5) Pageable pageable, ModelAndView model) {
+	public ModelAndView carregaPessoaPorPaginacao(@PageableDefault(size = 5) Pageable pageable
+			, ModelAndView model, @RequestParam("nomepesquisa") String nomepesquisa) {
 		
-		Page<Pessoa> pagePessoa = pessoaRepository.findAll(pageable);
+		Page<Pessoa> pagePessoa = pessoaRepository.findPessoaByNamePage(nomepesquisa,pageable);
 		model.addObject("pessoas", pagePessoa);
 		model.addObject("pessoaobj", new Pessoa());
+		model.addObject("nomepesquisa", nomepesquisa);
 		model.setViewName("cadastro/cadastropessoa");
 		return model;
 		
@@ -141,22 +143,25 @@ public class PessoaController {
 
 	@PostMapping("**/pesquisarpessoa")
 	public ModelAndView pesquisar(@RequestParam("nomepesquisa") String nomepesquisa,
-			@RequestParam("dizimista") String dizimista) {
-
-		List<Pessoa> pessoas = new ArrayList<Pessoa>();
+			@RequestParam("dizimista") String dizimista, @PageableDefault(size = 5, sort = {"nome"}) Pageable pageable) {
+		
+		Page<Pessoa> pessoas = null;
+		
 		if (dizimista != null && !dizimista.isEmpty()) {
-			pessoas = pessoaRepository.findPessoaByNameDizimista(nomepesquisa, dizimista);
-		} else {
-			pessoas = pessoaRepository.findPessoaByName(nomepesquisa);
+			pessoas = pessoaRepository.findPessoaByNameDizimistaPage(nomepesquisa, dizimista, pageable);
+		}else {
+			
+			pessoas = pessoaRepository.findPessoaByNamePage(nomepesquisa, pageable);
 		}
-
+	
 		ModelAndView modelAndView = new ModelAndView("cadastro/cadastropessoa");
-		modelAndView.addObject("profissoes", profissaoRepository.findAll());
 		modelAndView.addObject("pessoas", pessoas);
 		modelAndView.addObject("pessoaobj", new Pessoa());
+		modelAndView.addObject("nomepesquisa", nomepesquisa);
+		
 		return modelAndView;
-
 	}
+	
 
 	@GetMapping("**/baixarcurriculo/{idpessoa}")
 	public void baixarcurriculo(@PathVariable("idpessoa") Long idpessoa, HttpServletResponse response)

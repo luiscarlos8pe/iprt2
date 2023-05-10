@@ -225,7 +225,7 @@ table th {
 				<div class="row">
 					<div class="input-field col s5">
 						<label for="nomepesquisa" class="active">Pesquia por nome:</label>
-						<input name="nomepesquisa" id="nomepesquisa" class="validate">
+						<input name="nomepesquisa" id="nomepesquisa" class="validate" th:value="${nomepesquisa}">
 							<input class="waves-effect waves-light btn" type="submit"
 							value="Buscar"> <a class="waves-effect waves-light btn"
 								href="/listapessoas">Lista Pessoas</a> <input
@@ -298,17 +298,17 @@ table th {
 		<center>
 
 			<span th:if="${pessoas.hasPrevious()}"> <a
-				th:href="@{/pessoaspag(page=${pessoas.number-1}, size=${pessoas.size})}">Anterior</a>
+				th:href="@{/pessoaspag(page=${pessoas.number-1}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}">Anterior</a>
 			</span>
 
 			<th:block
 				th:each="i: ${#numbers.sequence(0, pessoas.totalPages - 1)}">
-				<a th:href="@{/pessoaspag(page=${i}, size=${pessoas.size})}">[[
+				<a th:href="@{/pessoaspag(page=${i}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}">[[
 					${i} + 1 ]]</a>
 			</th:block>
 
 			<span th:if="${pessoas.hasNext()}"> <a
-				th:href="@{/pessoaspag(page=${pessoas.number+1}, size=${pessoas.size})}">Próximo</a>
+				th:href="@{/pessoaspag(page=${pessoas.number+1}, size=${pessoas.size}, nomepesquisa=${nomepesquisa})}">Próximo</a>
 			</span>
 
 		</center>
