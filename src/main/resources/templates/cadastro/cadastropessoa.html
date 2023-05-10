@@ -33,6 +33,18 @@ form {
 	border: 2px solid black;
 	padding: 20px;
 }
+
+table {
+	width: 100%;
+}
+
+table td, table th {
+	border: 1px solid grey;
+}
+
+table th {
+	background: #eee;
+}
 </style>
 
 		<title>Insert title here</title>
@@ -56,7 +68,8 @@ form {
 	<div class="row">
 		<form class="container" action="salvarpessoa" id="formpessoa"
 			method="post" th:object="${pessoaobj}"
-			onsubmit="return validarCampos()? true : false" enctype="multipart/form-data">
+			onsubmit="return validarCampos()? true : false"
+			enctype="multipart/form-data">
 			<fieldset>
 				<legend>Formulario de Cadastro</legend>
 				<div class="row">
@@ -74,7 +87,7 @@ form {
 							type="text" class="validate" th:field="*{apelido}"> <label
 							for="apelido" class="active">Apelido</label>
 					</div>
-					<div class="input-field col s3">
+					<div class="input-field col s2">
 						<label for="sexopessoa" class="active">Sexo</label> <select
 							class="browser-default" th:field="*{sexopessoa}">
 							<option value="sexopessoa" disabled selected>Escolha a
@@ -83,7 +96,7 @@ form {
 							<option value="FEMININO">Feminino</option>
 						</select>
 					</div>
-					<div class="input-field col s3">
+					<div class="input-field col s2">
 						<label for="dizimista" class="active">Dizimista</label> <select
 							class="browser-default" th:field="*{dizimista}">
 							<option value="dizimista" disabled selected>Escolha a
@@ -94,7 +107,7 @@ form {
 						</select>
 					</div>
 
-					<div class="input-field col s3">
+					<div class="input-field col s5">
 						<label for="profissao" class="active">Profissão</label> <select
 							class="browser-default" th:field="*{profissao}">
 							<option th:each="p : ${profissoes}" th:value="${p.id}"
@@ -135,7 +148,7 @@ form {
 							type="date" id="dataCoversao" name="dataCoversao"
 							placeholder="Data conv." th:field="*{dataCoversao}">
 					</div>
-					
+
 					<div class="row">
 						<div class="input-field col s12">
 							<label for="file" class="active">Currículo:</label> <input
@@ -253,7 +266,7 @@ form {
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="pessoa : ${pessoas}">
+				<tr th:each = "pessoa : ${pessoas.content}">
 					<td th:text="${pessoa.id}"></td>
 					<td><a
 						th:href="@{/detalhepessoa/{idpessoa}(idpessoa=${pessoa.id})}"><span
@@ -264,8 +277,10 @@ form {
 					<td th:text="${pessoa.dataCoversao}"></td>
 					<td th:text="${pessoa.dizimista}"></td>
 					<td th:text="${pessoa.telefone}"></td>
-					<td><a th:if="${pessoa.curriculo != null}" th:href="@{/baixarcurriculo/{idpessoa}(idpessoa=${pessoa.id})}" >Download</a> 
-					<a th:if="${pessoa.curriculo == null}" style="color:red;" >Não existe</a> </td>
+					<td><a th:if="${pessoa.curriculo != null}"
+						th:href="@{/baixarcurriculo/{idpessoa}(idpessoa=${pessoa.id})}">Download</a>
+						<a th:if="${pessoa.curriculo == null}" style="color: red;">Não
+							existe</a></td>
 
 
 					<td><a
@@ -277,6 +292,27 @@ form {
 			</tbody>
 		</table>
 	</fieldset>
+
+
+	<div class="row" style="margin-top: 30px;">
+		<center>
+
+			<span th:if="${pessoas.hasPrevious()}"> <a
+				th:href="@{/pessoaspag(page=${pessoas.number-1}, size=${pessoas.size})}">Anterior</a>
+			</span>
+
+			<th:block
+				th:each="i: ${#numbers.sequence(0, pessoas.totalPages - 1)}">
+				<a th:href="@{/pessoaspag(page=${i}, size=${pessoas.size})}">[[
+					${i} + 1 ]]</a>
+			</th:block>
+
+			<span th:if="${pessoas.hasNext()}"> <a
+				th:href="@{/pessoaspag(page=${pessoas.number+1}, size=${pessoas.size})}">Próximo</a>
+			</span>
+
+		</center>
+	</div>
 
 
 
@@ -420,6 +456,5 @@ form {
 											});
 						});
 	</script>
-	</head>
 </body>
 </html>
