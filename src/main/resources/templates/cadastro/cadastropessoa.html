@@ -45,6 +45,13 @@ table td, table th {
 table th {
 	background: #eee;
 }
+nav{
+    background-color: #6e98ee;
+}
+.btn, .btn-large, .btn-small {
+ background-color: #6e98ee;
+}
+
 </style>
 
 		<title>Insert title here</title>
@@ -52,16 +59,14 @@ table th {
 
 <body>
 
-	<header> <nav>
+	<header> 
+	<nav>
 	<div class="nav-wrapper">
 		<a href="#" class="brand-logo">Cadastro de menbros</a>
-		<ul id="nav-mobile" class="right hide-on-med-and-down">
-			<li><a href="sass.html">Sass</a></li>
-			<li><a href="badges.html">Components</a></li>
-			<li><a href="collapsible.html">JavaScript</a></li>
-		</ul>
+		
 	</div>
-	</nav> </header>
+	</nav> 
+	</header>
 
 
 
@@ -125,10 +130,11 @@ table th {
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-field col s2">
-						<i class="material-icons prefix">phone</i> <input id="telefone"
-							type="text" placeholder="Ex.: 0000-0000" class="validate"
-							th:field="*{telefone}"> <label for="icon_telephone">Telephone</label>
+					<div class="input-field col s4">
+						<i class="material-icons prefix">phone</i>
+						<input id="telefone" type="text" placeholder="Ex.: 0000-0000" class="validate"
+							th:field="*{telefone}"/> 
+							<label for="icon_telephone" class="active">>Telephone</label>
 					</div>
 					<div class="input-field col s4">
 						<input placeholder="Informe o email" id="email" name="email"
@@ -136,14 +142,14 @@ table th {
 							for="email" class="active">Email</label>
 					</div>
 
-					<div class="input-field col s3">
+					<div class="input-field col s2">
 						<label for="dataNascimento" class="active">Data
 							Nascimento:</label> <input type="date" id="dataNascimento"
 							name="dataNascimento" placeholder="Data Nasc."
 							th:field="*{dataNascimento}">
 					</div>
 
-					<div class="input-field col s3">
+					<div class="input-field col s2">
 						<label for="dataCoversao" class="active">Data Conversão:</label> <input
 							type="date" id="dataCoversao" name="dataCoversao"
 							placeholder="Data conv." th:field="*{dataCoversao}">
@@ -233,7 +239,7 @@ table th {
 								onclick="document.getElementById('pesquisarpessoa').method = 'get'">
 					</div>
 
-					<div class="input-field col s4">
+				<div class="input-field col s4">
 						<label for="dizimista" class="active">Dizimista</label> <select
 							class="browser-default" name="dizimista" id="dizimista">
 							<option value="">--[Todos]--</option>
@@ -242,7 +248,6 @@ table th {
 							<option value="PARCIAL">Parcial</option>
 						</select>
 					</div>
-
 				</div>
 			</fieldset>
 		</form>
@@ -261,6 +266,7 @@ table th {
 					<th>Data Conversão</th>
 					<th>Dizimista</th>
 					<th>telefone</th>
+					<th>Sexo</th>
 					<th>Curriculo</th>
 
 				</tr>
@@ -270,13 +276,14 @@ table th {
 					<td th:text="${pessoa.id}"></td>
 					<td><a
 						th:href="@{/detalhepessoa/{idpessoa}(idpessoa=${pessoa.id})}"><span
-							th:text="${pessoa.nome}"></span></a></td>
+						th:text="${pessoa.nome}"></span></a></td>
 					<td th:text="${pessoa.apelido}"></td>
 					<td th:text="${pessoa.email}"></td>
 					<td th:text="${pessoa.dataNascimento}"></td>
 					<td th:text="${pessoa.dataCoversao}"></td>
 					<td th:text="${pessoa.dizimista}"></td>
 					<td th:text="${pessoa.telefone}"></td>
+					<td th:text="${pessoa.sexopessoa}"></td>
 					<td><a th:if="${pessoa.curriculo != null}"
 						th:href="@{/baixarcurriculo/{idpessoa}(idpessoa=${pessoa.id})}">Download</a>
 						<a th:if="${pessoa.curriculo == null}" style="color: red;">Não

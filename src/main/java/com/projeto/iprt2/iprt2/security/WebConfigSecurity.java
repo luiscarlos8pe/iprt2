@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
@@ -47,10 +48,10 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter{
 		auth.userDetailsService(implementacaoUserDetailsService)
 		.passwordEncoder(new BCryptPasswordEncoder());
 	
-		// auth.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance()) PADRAO PARA NAO CODIFICAR A SENHA 
+		//auth.inMemoryAuthentication().passwordEncoder(NoOpPasswordEncoder.getInstance())// PADRAO PARA NAO CODIFICAR A SENHA 
 		/*auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder())
-		.withUser("alex")
-		.password("$2a$10$fBBO5ie7/oD1UTD28/2GUuSolWiY2hdKRbDf1bi5kRdEYWVKIno8e")
+		.withUser("vanessa")
+		.password("$2a$10$Tj08J.5xLqO3X2K2HXKTAeex3s9SZtPNSPH2fEoWo4nM.JvXEU77W")
 		.roles("ADMIN");*/
 	}
 	

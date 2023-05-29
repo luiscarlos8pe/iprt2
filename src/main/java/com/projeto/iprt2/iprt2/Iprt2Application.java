@@ -7,6 +7,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 @SpringBootApplication
 @EntityScan(basePackages = "com.projeto.iprt2.iprt2.model")
@@ -18,13 +20,13 @@ public class Iprt2Application {
 	public static void main(String[] args) {
 		SpringApplication.run(Iprt2Application.class, args);
 		
-		/*BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		String result = encoder.encode("123");
-		System.out.println(result);*/
+		//BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		//String result = encoder.encode("010123");
+		//System.out.println(result);
 		
 		//       ou
 		
-		//System.out.println(new BCryptPasswordEncoder().encode("123"));
+		//.out.println(new BCryptPasswordEncoder().encode("010123"));
 		//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder; 
 	}
 

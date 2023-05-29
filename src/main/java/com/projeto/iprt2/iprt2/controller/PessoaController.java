@@ -161,6 +161,7 @@ public class PessoaController {
 		
 		return modelAndView;
 	}
+
 	
 
 	@GetMapping("**/baixarcurriculo/{idpessoa}")
